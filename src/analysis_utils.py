@@ -53,5 +53,6 @@ def check_hourly_continuity(df, timestamp_col="timestamp"):
 
 
 def sorted_target_correlations(df, columns, target_col):
-    """Show correlations with the target column."""
-    return df[list(columns)].corr()[target_col].sort_values(ascending=False)
+    """Show correlations with the target column, excluding self-correlation."""
+    corr = df[list(columns)].corr()[target_col].sort_values(ascending=False)
+    return corr.drop(index=target_col, errors="ignore")
